@@ -24,8 +24,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SysMenuRole implements Serializable {
 
+
+    /**
+     * 菜单id
+     */
     private String menuId;
 
+    /**
+     * 角色id
+     */
     private Long roleId;
 
 

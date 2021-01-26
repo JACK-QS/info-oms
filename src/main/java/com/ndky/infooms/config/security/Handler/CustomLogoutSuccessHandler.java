@@ -17,7 +17,8 @@ import java.io.IOException;
 
 /**
  * @author chenqingsheng
- * @date 2021/1/23 22:35
+ * @date 2021/1/23 22:
+ * 自定义注销成功处理程序
  */
 @Component
 @Slf4j

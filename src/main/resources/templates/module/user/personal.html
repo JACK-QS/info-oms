@@ -20,14 +20,11 @@
                                th:value="${sysUser}">
                         <input id="roleName" name="roleName" type="hidden"
                                th:value="${roleName}">
-                        <el-form-item label="用户名" prop="name">
-                            <el-input v-model="ruleForm.name"></el-input>
+                        <el-form-item label="用户名" prop="sysName">
+                            <el-input v-model="ruleForm.sysName"></el-input>
                         </el-form-item>
-                        <el-form-item label="昵称" prop="nickName">
-                            <el-input v-model="ruleForm.nickName"></el-input>
-                        </el-form-item>
-                        <el-form-item label="性别" prop="sex">
-                            <el-radio-group v-model="ruleForm.sex">
+                        <el-form-item label="性别" prop="sysSex">
+                            <el-radio-group v-model="ruleForm.sysSex">
                                 <el-radio label="男"></el-radio>
                                 <el-radio label="女"></el-radio>
                             </el-radio-group>
@@ -35,24 +32,14 @@
                         <el-form-item label="用户权限" prop="roleName">
                             <el-input v-model="ruleForm.userRole"  disabled></el-input>
                         </el-form-item>
-                        <el-form-item label="手机号" prop="mobile">
-                            <el-input v-model="ruleForm.mobile"></el-input>
+                        <el-form-item label="手机号" prop="sysMobile">
+                            <el-input v-model="ruleForm.sysMobile"></el-input>
                         </el-form-item>
-                        <el-form-item label="邮箱" prop="email">
-                            <el-input v-model="ruleForm.email"></el-input>
+                        <el-form-item label="邮箱" prop="sysEmail">
+                            <el-input v-model="ruleForm.sysEmail"></el-input>
                         </el-form-item>
-                        <el-form-item label="出生日期" prop="birthday">
-                            <el-date-picker id="birth" v-model="ruleForm.birthday"
-                                            value-format="yyyy-MM-dd"
-                                            type="date" style="width:100%"
-                                            placeholder="选择日期">
-                            </el-date-picker>
-                        </el-form-item>
-                        <el-form-item label="爱好" prop="hobby">
-                            <el-input v-model="ruleForm.hobby"></el-input>
-                        </el-form-item>
-                        <el-form-item label="现居地" prop="liveAddress">
-                            <el-input v-model="ruleForm.liveAddress"></el-input>
+                        <el-form-item label="办公地址" prop="sysOfficeAddress">
+                            <el-input v-model="ruleForm.sysOfficeAddress"></el-input>
                         </el-form-item>
                         <el-form-item>
                             <el-button type="primary" @click="submitForm('ruleForm')">更改基本资料</el-button>

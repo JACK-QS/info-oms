@@ -4,7 +4,7 @@ $.validator.setDefaults({
     }
 });
 
-var id=$("#id").val();
+var roleId=$("#roleId").val();
 var app = new Vue({
     el:"#app",
     data:{
@@ -24,7 +24,7 @@ var app = new Vue({
                 type : "GET",
                 url : context + 'role/getRoleMenu',
                 data:{
-                    "roleId":id
+                    "roleId":roleId
                 },
                 error : function(request) {
                     parent.layer.alert("Connection error");
@@ -48,18 +48,18 @@ var app = new Vue({
             var icon = "<i class='fa fa-times-circle'></i> ";
             $("#signupForm").validate({
                 rules : {
-                    id : {
+                    roleId : {
                         required : true
-                    }, name : {
+                    }, roleName : {
                         required : true
-                    }, authority : {
+                    }, roleAuthoritr : {
                         required : true
                     }
                 },
                 messages : {
-                    name : {
+                    roleName : {
                         required : icon + "请输入角色名称"
-                    }, authority : {
+                    }, roleAuthoritr : {
                         required : icon + "请输入角色权限"
                     }
                 }
@@ -75,9 +75,9 @@ var app = new Vue({
 function updateRole(){
     var childrenId = app.getCheckedKeys();
     var roleVO = {
-        'id':$("#id").val(),
-        'name':$("#name").val(),
-        "authority":$("#authority").val(),
+        'roleId':$("#roleId").val(),
+        'roleName':$("#roleName").val(),
+        "roleAuthoritr":$("#roleAuthoritr").val(),
         'ids':app.getHalfCheckedKeys(childrenId)
     };
     $.ajax({

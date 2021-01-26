@@ -33,8 +33,8 @@ public class SysMenuController {
     }
 
     @GetMapping("/update")
-    public String update(String menuId, Model model){
-        SysMenu sysMenu = sysMenuService.getById(menuId);
+    public String update(String id, Model model){
+        SysMenu sysMenu = sysMenuService.getById(id);
         model.addAttribute("sysMenu",sysMenu);
         return "module/menu/updateMenu";
     }

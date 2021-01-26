@@ -16,14 +16,5 @@ import java.util.List;
  * @since 2021-01-21
  */
 public interface SysMenuRoleMapper extends BaseMapper<SysMenuRole> {
-    @Select({
-            "<script>",
-            "select menu_id from sys_menu_role",
-            "where role_id = #{roleId} and menu_id not in",
-            "<foreach collection='parentIds' item='id' open='(' separator=',' close=')'>",
-            "#{id}",
-            "</foreach>",
-            "</script>"
-    })
-    List<String> getAllMenuId(@Param("roleId")Long roleId, @Param("parentIds")List<String> parentIds);
+
 }

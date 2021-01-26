@@ -39,7 +39,6 @@
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
-
         <!-- thymeleaf 模板引擎-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -119,6 +118,14 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>5.0.7</version>
+        </dependency>
+
+        <!-- 用户个人资料controller层 用到 -->
+        <dependency>
+            <groupId>net.sf.json-lib</groupId>
+            <artifactId>json-lib</artifactId>
+            <version>2.4</version>
+            <classifier>jdk15</classifier>
         </dependency>
 
     </dependencies>

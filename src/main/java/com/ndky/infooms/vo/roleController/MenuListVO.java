@@ -17,7 +17,7 @@ public class MenuListVO {
     /**
      * 菜单主键
      */
-    private String menuId;
+    private String id;
 
     /**
      * 菜单名称

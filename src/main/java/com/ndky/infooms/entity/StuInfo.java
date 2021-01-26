@@ -30,7 +30,7 @@ public class StuInfo implements Serializable {
     /**
      * 学生学号
      */
-    @TableId(value = "hea_id", type = IdType.INPUT)
+    @TableId(value = "stu_num", type = IdType.INPUT)
     private Long stuNum;
 
     /**

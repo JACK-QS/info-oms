@@ -16,15 +16,14 @@ import com.ndky.infooms.vo.menu.MenuNameVO;
 import com.ndky.infooms.vo.menu.MenuVO;
 import com.ndky.infooms.vo.menu.SysMenuVO;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.dc.pr.PRError;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -60,6 +59,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     public List<MenuVO> getMenuByUser(String username) {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(username);
+        }
         List<SysMenu> sysMenus = selectListSysMenuByUserName(username);
 
         List<MenuVO> menuVoList = new ArrayList<>();
@@ -69,7 +71,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         for (SysMenu sysMenu : firstLevel) {
             List<SysMenu> secodeMenuList = new LinkedList<>();
             for (SysMenu menu : sysMenus) {
-                if (StringUtils.equals(menu.getParentId(),sysMenu.getMenuId())){
+                if (StringUtils.equals(menu.getParentId(),sysMenu.getId())){
                     secodeMenuList.add(menu);
                 }
             }
@@ -136,7 +138,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public int updateMenu(SysMenu sysMenu) {
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
-        sysMenuQueryWrapper.eq("menu_id",sysMenu.getMenuId());
+        sysMenuQueryWrapper.eq("id",sysMenu.getId());
         return baseMapper.update(sysMenu,sysMenuQueryWrapper);
     }
 
@@ -178,7 +180,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public SysMenu getById(String id) {
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
-        sysMenuQueryWrapper.eq("menu_id",id);
+        sysMenuQueryWrapper.eq("id",id);
         return baseMapper.selectOne(sysMenuQueryWrapper);
        //return baseMapper.selectById(id);
     }
@@ -214,7 +216,32 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     public List<String> getRoleMenu(Long roleId) {
-        return sysMenuMapper.getRoleMenu(roleId);
+
+
+        // 现根据角色id查询菜单id集合
+        List<String> allMenuId = sysMenuRoleService.getAllMenuId(roleId);
+        // 根据菜单id查询所有菜单
+        Iterator<String> iterator = allMenuId.iterator();
+        // 创建一个菜单集合
+        List<SysMenu> sysMenus = new ArrayList<>();
+        // 使用迭代器遍历菜单
+        while (iterator.hasNext()){
+            // 创建一个选择器
+            QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
+            sysMenuQueryWrapper.eq("id", iterator.next());
+            SysMenu sysMenu = baseMapper.selectOne(sysMenuQueryWrapper);
+            sysMenus.add(sysMenu);
+        }
+        // 创建一个返回值类型
+        List<String> strings = new ArrayList<>();
+        // 使用迭代器遍历菜单集合插入到返回值类型集合当中
+        Iterator<SysMenu> iterator1 = sysMenus.iterator();
+        while (iterator1.hasNext()){
+            strings.add(iterator1.next().getId());
+        }
+        return strings;
+
+
     }
 
     /**
@@ -265,7 +292,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public String getByMenuName(String menuNames) {
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
         sysMenuQueryWrapper.eq("menu_name",menuNames);
-        return baseMapper.selectOne(sysMenuQueryWrapper).getMenuId();
+
+        return baseMapper.selectOne(sysMenuQueryWrapper).getId();
     }
 
     /**
@@ -277,7 +305,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public int deleteMenuById(String id) {
         QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
-        sysMenuQueryWrapper.eq("menu_id",id)
+        sysMenuQueryWrapper.eq("id",id)
                 .or()
                 .eq("parent_id",id);
         return baseMapper.delete(sysMenuQueryWrapper);
@@ -290,12 +318,15 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     List<SysMenu> selectListSysMenuByUserName(String username){
         SysUser byName = sysUserService.findByName(username);
 
+        // 获得用户id
         Long sysId = byName.getSysId();
-        // 通过用户id获取用户角色id
+
+        // 根据用户id获取角色id
         Long aLong = sysUserRoleService.selectRoleId(sysId);
 
+
         // 根据角色id获取菜单id集合
-        List<String> allMenuId = sysMenuRoleService.getAllMenuId(sysId);
+        List<String> allMenuId = sysMenuRoleService.getAllMenuId(aLong);
 
         // 根据菜单id获取出所有菜单
         List<SysMenu> sysMenus = new ArrayList<>();
@@ -303,10 +334,22 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         Iterator<String> iterator = allMenuId.iterator();
         while (iterator.hasNext()){
             QueryWrapper<SysMenu> sysMenuQueryWrapper = new QueryWrapper<>();
-            sysMenuQueryWrapper.eq("menu_id",iterator.next());
+            sysMenuQueryWrapper.eq("id",iterator.next());
             SysMenu sysMenu = baseMapper.selectOne(sysMenuQueryWrapper);
             sysMenus.add(sysMenu);
         }
+        // 对list集合进行排序
+        Collections.sort(sysMenus, new Comparator<SysMenu>() {
+            @Override
+            public int compare(SysMenu o1, SysMenu o2) {
+                int i = o1.getMenuWeight() - o2.getMenuWeight();
+                if(i == 0){
+                    return o1.getMenuWeight() - o2.getMenuWeight();
+                }
+                return i;
+            }
+        });
+
         return sysMenus;
     }
 }

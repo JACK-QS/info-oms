@@ -21,7 +21,7 @@ public class SysMenuNameVO{
     /**
      * 菜单id
      */
-    private String menuId;
+    private String id;
     /**
      * 菜单父级
      */

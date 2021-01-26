@@ -43,21 +43,16 @@ public class SysMenuRestController {
     @ResponseBody
     public ApiResponse addMenu(@RequestBody SysMenuNameVO sysMenuNameVO){
         JSONObject jsonObject = new JSONObject();
-        System.out.println(sysMenuNameVO.getMenuName());
-        System.out.println(sysMenuNameVO.getMenuCode());
-        System.out.println(sysMenuNameVO.getMenuHref());
-
         //查看有没有重复的菜单
         SysMenu menu = sysMenuService.getByName(
                 sysMenuNameVO.getMenuName(),
                 sysMenuNameVO.getMenuCode(),
                 sysMenuNameVO.getMenuHref());
-
         if (menu == null) {
             //Authentication authentication = SecurityUtils.getCurrentUserAuthentication();
             SysMenu sysMenu = new SysMenu();
             BeanUtils.copyProperties(sysMenuNameVO,sysMenu);
-            sysMenu.setMenuId(UUIDUtils.getUUID());
+            sysMenu.setId(UUIDUtils.getUUID());
             // 查询父类菜单的id值
             System.out.println(sysMenuNameVO.getMenuNames());
 
@@ -129,9 +124,9 @@ public class SysMenuRestController {
         //组装数据
         List<SysMenu> firstMenuList = firstMenu.getRecords();
         for (SysMenu sysMenu : firstMenuList) {
-            List<SysMenu> secondMenu = sysMenuService.findByParentId(sysMenu.getMenuId());
+            List<SysMenu> secondMenu = sysMenuService.findByParentId(sysMenu.getId());
             listVoList.add(MenuListVO.builder()
-                    .menuId(sysMenu.getMenuId())
+                    .id(sysMenu.getId())
                     .children(secondMenu)
                     .isShow(sysMenu.getIsShow())
                     .menuCode(sysMenu.getMenuCode())
@@ -179,9 +174,6 @@ public class SysMenuRestController {
         //获取当前用户登录用户
         Authentication userAuthentication = SecurityUtils.getCurrentUserAuthentication();
         String name = userAuthentication.getName();
-        for (int i = 0; i < 10; i++) {
-            System.out.println(name);
-        }
         List<MenuVO> menuVoList = sysMenuService.getMenuByUser(name);
         JSONObject data = new JSONObject(16);
         data.put("name",name);
@@ -196,10 +188,10 @@ public class SysMenuRestController {
      * @return
      */
     @GetMapping("/deleteMenu")
-    public ApiResponse deleteMenu(@RequestParam("id")String menuId){
+    public ApiResponse deleteMenu(@RequestParam("id")String id){
         JSONObject jsonObject = new JSONObject();
         try{
-            if (sysMenuService.deleteMenuById(menuId) > 0){
+            if (sysMenuService.deleteMenuById(id) > 0){
                 jsonObject.put("code",200);
             }
         }catch (Exception e) {

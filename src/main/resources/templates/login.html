@@ -77,18 +77,8 @@
                 </el-button>
             </el-form-item>
         </el-form>
-        <!--  底部  -->
-<!--        <div id="el-login-footer">-->
-<!--            <span></span>-->
-<!--            <a href="http://www.beian.miit.gov.cn" target="_blank"></a>-->
-<!--        </div>-->
     </div>
 </div>
-<script type="text/javascript">
-    if (window != top)
-        top.location.href = location.href;
-</script>
-<script th:src="@{static/js/sha256.js}"></script>
 <script th:src="@{static/js/jquery.1.12.4.min.js}"></script>
 <script th:src="@{static/js/vue.2.6.11.js}"></script>
 <script th:src="@{static/js/element-ui.2.13.0.js}"></script>
@@ -116,9 +106,8 @@
             login: function () {
                 var localObj = window.location;
                 var contextPath = localObj.pathname.split("/")[1];
-                // var password = CryptoJS.SHA256(vm.password).toString();
                 var password = vm.password.toString()
-                console.log(password);
+                //console.log(password);
                 $.ajax({
                     url: 'login',
                     type: 'POST',
@@ -144,25 +133,5 @@
         }
     })
 </script>
-<script type="text/javascript">
-    window.onload = function () {
-        //配置
-        var config = {
-            vx: 4,	//小球x轴速度,正为右，负为左
-            vy: 4,	//小球y轴速度
-            height: 2,	//小球高宽，其实为正方形，所以不宜太大
-            width: 2,
-            count: 300,		//点个数
-            color: "64,158,255", 	//点颜色
-            stroke: "64,158,255", 	//线条颜色
-            dist: 6000, 	//点吸附距离
-            e_dist: 20000, 	//鼠标吸附加速距离
-            max_conn: 10 	//点到点最大连接数
-        };
-        //调用
-        CanvasParticle(config);
-    }
-</script>
-<script th:src="@{static/js/canvas-particle.js}"></script>
 </body>
 </html>

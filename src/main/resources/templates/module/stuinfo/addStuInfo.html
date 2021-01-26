@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/static/css/layui/layui.css}" rel="stylesheet">
+    <link th:href="@{/static/css/style.css}" rel="stylesheet">
+    <link th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/static/css/layer/layer.css}" rel="stylesheet">
+    <link th:href="@{/static/css/layui/admin.css}" rel="stylesheet">
+    <link th:href="@{/static/css/element-ui.2.13.0.css}" rel="stylesheet">
+    <link th:href="@{/static/css/font-awesome.min.css}" rel="stylesheet">
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight" id="app">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+<!--                        <input id="id" name="id" type="hidden">-->
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">学号：</label>
+                            <div class="col-sm-8">
+                                <input id="stuNum" name="stuNum" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">姓名：</label>
+                            <div class="col-sm-8">
+                                <input id="stuName" name="stuName" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">年龄：</label>
+                            <div class="col-sm-8">
+                                <input id="stuAge" name="stuAge" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">性别：</label>
+                            <div class="col-sm-8">
+                                <div class="radio-beauty-container" id="stuSex">
+                                    <label>
+                                        <span class="radio-name">男</span>
+                                        <input type="radio" value="男" name="sex" id="nan" hidden/>
+                                        <label for="nan" class="radio-beauty"></label>
+                                    </label>
+                                    <label>
+                                        <span class="radio-name">女</span>
+                                        <input type="radio" value="女" name="sex" id="nv" hidden/>
+                                        <label for="nv" class="radio-beauty"></label>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">民族：</label>
+                            <div class="col-sm-8">
+                                <input id="stuNation" name="stuNation" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">电话：</label>
+                            <div class="col-sm-8">
+                                <input id="stuTelephone" name="stuTelephone" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">生源地：</label>
+                            <div class="col-sm-8">
+                                <input id="stuOriginPlace" name="stuOriginPlace" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">学科部：</label>
+                            <div class="col-sm-8">
+                                <input id="stuDepartment" name="stuDepartment" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">专业：</label>
+                            <div class="col-sm-8">
+                                <input id="stuSpecialities" name="stuSpecialities" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">班级：</label>
+                            <div class="col-sm-8">
+                                <input id="stuClass" name="stuClass" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">辅导员：</label>
+                            <div class="col-sm-8">
+                                <input id="stuInstructor" name="stuInstructor" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">父亲姓名：</label>
+                            <div class="col-sm-8">
+                                <input id="stuFatherName" name="stuFatherName" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">父亲电话：</label>
+                            <div class="col-sm-8">
+                                <input id="stuFatherNum" name="stuFatherNum" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">母亲姓名：</label>
+                            <div class="col-sm-8">
+                                <input id="stuMotherName" name="stuMotherName" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">母亲电话：</label>
+                            <div class="col-sm-8">
+                                <input id="stuMotherNum" name="stuMotherNum" class="form-control"
+                                       type="text">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-8 col-sm-offset-3">
+                                <button type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    var context = [[@{
+        /}]];
+</script>
+<script th:src="@{/static/js/jquery.1.12.4.min.js}"></script>
+<script th:src="@{/static/js/sha256.js}"></script>
+<script th:src="@{/static/js/jquery.validate.min.js}"></script>
+<script th:src="@{/static/js/messages_zh.min.js}"></script>
+<script th:src="@{/static/js/layui/layui.js}"></script>
+<script th:src="@{/static/js/layui/lay/modules/layer.js}"></script>
+<script th:src="@{/static/js/vue.2.6.11.js}"></script>
+<script th:src="@{/static/js/element-ui.2.13.0.js}"></script>
+<script th:src="@{/static/js/modules/stuinfo/addStuInfo.js}"></script>
+</body>
+</html>

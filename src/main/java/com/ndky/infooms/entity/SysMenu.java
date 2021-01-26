@@ -32,7 +32,8 @@ public class SysMenu implements Serializable {
     /**
      * 菜单id
      */
-    private String menuId;
+    @TableId
+    private String id;
 
     /**
      * 父菜单主键

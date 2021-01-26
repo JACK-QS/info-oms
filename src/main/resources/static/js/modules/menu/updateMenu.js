@@ -123,7 +123,7 @@ var app = new Vue({
 
 function updateUser(){
     var menuVO = {
-        "menuId":$("#menuId").val(),
+        "id":$("#id").val(),
         "menuName":$("#menuName").val(),
         "menuCode":$("#menuCode").val(),
         "menuHref":$("#menuHref").val(),

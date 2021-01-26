@@ -26,8 +26,8 @@ var vm = new Vue({
                 title: '编辑',
                 maxmin: true,
                 shadeClose: false, // 点击遮罩关闭层
-                area: ['800px', '520px'],
-                content: context + 'menu/update?menuId='+row.menuId,
+                area: ['750px', '520px'],
+                content: context + 'menu/update?id='+row.id,
                 end: function () {
                     vm.getMenuList();
                 }
@@ -36,7 +36,7 @@ var vm = new Vue({
         handleDelete:function(row) {
             layer.confirm("您确定要删除吗？", function (index) {
                 $.ajax({
-                    url: context + 'menu/deleteMenu?menuId='+row.menuId,
+                    url: context + 'menu/deleteMenu?id='+row.id,
                     type: 'GET',
                     success: function (res) {
                         if (res.code === 200){

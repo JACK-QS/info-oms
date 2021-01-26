@@ -79,28 +79,30 @@ public class SysIndexRestController {
         String usernameRedisKey = Constants.PASSWORD_UPDATE + username;
         // 校验用户是否被锁定
         if (redisUtils.exists(usernameRedisKey)) {
-            if (redisUtils.sGetSetSize(usernameRedisKey) >= 3L){
+            if (redisUtils.sGetSetSize(usernameRedisKey) >= 6L){
                 return ApiResponse.fail("旧密码错误次数太多了，请稍后重试");
             }
         }
         // 判断旧密码是否正确
         SysUser sysUser = sysUserService.findByName(username);
         if (sysUser != null){
-            if (!new BCryptPasswordEncoder().matches(oldPass,sysUser.getSysPassword())){
-                redisUtils.sSetAndTime(usernameRedisKey,Constants.PASSWORD_UPDATE_MINUTE, new Date());
-                return ApiResponse.fail("旧密码不匹配,还有"+ (3-redisUtils.sGetSetSize(usernameRedisKey)) +"次机会");
-            } else {
+            //if (!new BCryptPasswordEncoder().matches(oldPass,sysUser.getSysPassword())){
+            if (oldPass.equals(sysUser.getSysPassword())){
                 //更新密码
-                sysUserService.updatePasswordById(new BCryptPasswordEncoder().encode(pass), sysUser.getSysId());
+                //sysUserService.updatePasswordById(new BCryptPasswordEncoder().encode(pass), sysUser.getSysId());
+                sysUserService.updatePasswordById(pass, sysUser.getSysId());
                 if (redisUtils.exists(usernameRedisKey)) {
                     redisUtils.remove(usernameRedisKey);
                 }
                 return ApiResponse.success("更新成功");
+
+            } else {
+                redisUtils.sSetAndTime(usernameRedisKey,Constants.PASSWORD_UPDATE_MINUTE, new Date());
+                return ApiResponse.fail("旧密码不匹配,还有"+ (6-redisUtils.sGetSetSize(usernameRedisKey)) +"次机会");
+
             }
         } else {
             return ApiResponse.fail("获取用户信息出错，请稍后重试");
         }
     }
-
-
 }

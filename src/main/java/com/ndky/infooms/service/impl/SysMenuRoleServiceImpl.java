@@ -5,6 +5,8 @@ import com.ndky.infooms.entity.SysMenuRole;
 import com.ndky.infooms.mapper.SysMenuRoleMapper;
 import com.ndky.infooms.service.SysMenuRoleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -56,7 +58,19 @@ public class SysMenuRoleServiceImpl extends ServiceImpl<SysMenuRoleMapper, SysMe
      */
     @Override
     public List<String> getAllMenuId(Long roleId, List<String> parentIds) {
-        return sysMenuRoleMapper.getAllMenuId(roleId,parentIds);
+//        @Select({
+//                "<script>",
+//                "select menu_id from sys_menu_role",
+//                "where role_id = #{roleId} and menu_id not in",
+//                "<foreach collection='parentIds' item='id' open='(' separator=',' close=')'>",
+//                "#{id}",
+//                "</foreach>",
+//                "</script>"
+//        })
+//        List<String> getAllMenuId(@Param("roleId")Long roleId, @Param("parentIds")List<String> parentIds);
+//        return sysMenuRoleMapper.getAllMenuId(roleId,parentIds);
+        List<String> strings = new ArrayList<>();
+        return strings;
     }
 
     /**

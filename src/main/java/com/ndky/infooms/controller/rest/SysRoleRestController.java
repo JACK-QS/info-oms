@@ -56,12 +56,12 @@ public class SysRoleRestController {
 
     /**
      * 删除角色
-     * @param id
+     * @param roleId
      * @return
      */
     @GetMapping("/deleteRole")
     @Transactional(rollbackFor={RuntimeException.class, Exception.class})
-    public ApiResponse deleteRole(@RequestParam("id")Long roleId){
+    public ApiResponse deleteRole(@RequestParam("roleId")Long roleId){
         JSONObject jsonObject = new JSONObject();
         try{
             sysMenuRoleService.deleteByRoleId(roleId);
@@ -118,16 +118,22 @@ public class SysRoleRestController {
             // 查找有没有相同的角色名
             SysRole role = sysRoleService.getByName(roleVO.getRoleName());
             if (role == null){
-
+                // 创建角色对象
                 SysRole sysRole = new SysRole();
+                // 获取角色名称
                 sysRole.setRoleName(roleVO.getRoleName());
+                // 获取角色权限
                 sysRole.setRoleAuthoritr(roleVO.getRoleAuthoritr());
+
                 sysRoleService.insert(sysRole);
-                System.out.println(roleVO);
+                for (int i = 0; i < 10; i++) {
+                    System.out.println(sysRole);
+                }
                 // 插入完成之后，根据角色名称查出角色id
                 Long roleId = sysRoleService.getByName(sysRole.getRoleName()).getRoleId();
-                System.out.println(roleId);
-
+                for (int i = 0; i < 10; i++) {
+                    System.out.println(roleId);
+                }
 
                 for (String menuId : roleVO.getIds()){
                     SysMenuRole sysMenuRole = new SysMenuRole(menuId,roleId);
@@ -174,9 +180,9 @@ public class SysRoleRestController {
         List<SysMenu> firstMenuList = sysMenuService.getFirstMenu();
         // 组装数据
         for (SysMenu sysMenu : firstMenuList) {
-            List<SysMenu> secondMenu = sysMenuService.findByParentId(sysMenu.getMenuId());
+            List<SysMenu> secondMenu = sysMenuService.findByParentId(sysMenu.getId());
             listVoList.add(MenuListVO.builder()
-                    .menuId(sysMenu.getMenuId())
+                    .id(sysMenu.getId())
                     .children(secondMenu)
                     .isShow(sysMenu.getIsShow())
                     .menuCode(sysMenu.getMenuCode())
@@ -199,7 +205,8 @@ public class SysRoleRestController {
         JSONObject jsonObject = new JSONObject();
         List<MenuListVO> listVoList = getMenu();
         List<String> parentIds = sysMenuService.getRoleMenu(roleId);
-        List<String> roleMenuIds = sysMenuRoleService.getAllMenuId(roleId, parentIds);
+        //List<String> roleMenuIds = sysMenuRoleService.getAllMenuId(roleId, parentIds);
+        List<String> roleMenuIds = sysMenuRoleService.getAllMenuId(roleId);
         jsonObject.put("ids", roleMenuIds);
         jsonObject.put("parentIds", parentIds);
         jsonObject.put("menuList",listVoList);

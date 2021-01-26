@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -45,14 +44,14 @@ public class SysUserRestController {
     @ResponseBody
     @Transactional(rollbackFor={RuntimeException.class, Exception.class})
     public ApiResponse addRole(@RequestBody UserQuery userQuery){
-        System.out.println(userQuery);
+
         JSONObject jsonObject = new JSONObject();
         // 查看数据库中是否有一样名字的用户
         String sysName = userQuery.getSysName();
         SysUser user = userService.findByName(sysName);
         // 进行判断
         if(user == null){
-            // 给用户角色
+            // 创建用户角色类
             SysUserRole sysUserRole = new SysUserRole();
             // 获取传入的角色名
             System.out.println(userQuery);
@@ -62,7 +61,6 @@ public class SysUserRestController {
             // 把query对象与sysUser对象进行转换
             SysUser sysUser = new SysUser();
             BeanUtils.copyProperties(userQuery,sysUser);
-            System.out.println(sysUser);
             if(userService.insert(sysUser) > 0){
                 // 获取插入用户的id来set进角色表
                 sysUserRole.setUserId(sysUser.getSysId());
@@ -106,6 +104,9 @@ public class SysUserRestController {
         JSONObject jsonObject = new JSONObject();
         List<UserVO> userList = new ArrayList<>(16);
         IPage<SysUser> sysUserList = userService.getAll(new Page(page, pageSize));
+        for (int i = 0; i < 10; i++) {
+            System.out.println(sysUserList);
+        }
         if (sysUserList.getRecords() != null && sysUserList.getRecords().size() > 0){
             for (SysUser sysUser : sysUserList.getRecords()){
                 //根据用户id查询角色名称

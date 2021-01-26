@@ -25,7 +25,7 @@ public class SysMenuVO implements Serializable {
     /**
      * 菜单id
      */
-    private String menuId;
+    private String id;
 
     /**
      * 父菜单主键

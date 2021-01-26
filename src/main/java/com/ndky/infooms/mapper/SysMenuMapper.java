@@ -35,10 +35,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
     SysMenu getByName(@Param("menuName")String menuName, @Param("menuCode")String menuCode, @Param("menuHref")String menuHref);
 
 
-    @Select("SELECT menu_id FROM sys_menu sm WHERE sm.menu_level = 1 and id in " +
-            "(select mr.menu_id from sys_menu_role mr left join sys_menu m on mr.menu_id = m.id where mr.role_id = #{roleId})" +
-            " ORDER BY menu_weight")
-    List<String> getRoleMenu(@Param("roleId")Long roleId);
+
 
 
 
